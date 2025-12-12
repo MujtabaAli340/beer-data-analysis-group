@@ -39,3 +39,30 @@ if ("Consumo.de.cerveja..litros" %in% names(Beer)) {
 if (!("Consumo.de.cerveja..litros" %in% names(Beer))) {
   Beer$Consumo.de.cerveja..litros <- Beer$Consumo.de.cerveja..litros.
 }
+
+# -----------------------------
+# Scatter plots
+# -----------------------------
+x <- Beer$Temperatura.Maxima..C.
+y <- Beer$Consumo.de.cerveja..litros
+
+ok <- is.finite(x) & is.finite(y) & is.finite(avg_temp)
+x <- x[ok]
+y <- y[ok]
+avg_temp <- avg_temp[ok]
+
+model <- lm(y ~ x)
+
+cat("Pearson correlation test (temperature vs beer consumption)\n")
+print(cor.test(x, y, method = "pearson"))
+
+cat("\nLinear regression summary (y ~ x)\n")
+print(summary(model))
+
+# Scatter plot (no regression line)
+plot(x, y,
+     main = "Scatter plot: Beer consumption and Temperature.",
+     xlab = "Temperture in Celsius",
+     ylab = "Beer Consumption in liters",
+     pch = 1)
+
